@@ -232,7 +232,7 @@ h1, h2, h3 { font-family: var(--slab); color: var(--ink); line-height: 1.2; }
 .faq-marker::after { width: 2px; height: 16px; transition: transform .2s ease; }
 .faq-item details[open] .faq-marker::after { transform: translate(-50%, -50%) scaleY(0); }
 .faq-a { padding: 0 1.25rem 1.25rem 1.6rem; color: var(--ink-soft); }
-.faq-a ul { margin: .4rem 0; padding-left: 1.2rem; }
+.faq-a ul, .faq-a ol { margin: .4rem 0; padding-left: 1.4rem; }
 .faq-a li { margin-bottom: .35rem; }
 .faq-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
 .tag {
@@ -242,6 +242,8 @@ h1, h2, h3 { font-family: var(--slab); color: var(--ink); line-height: 1.2; }
 .tag--role { background: rgba(10, 44, 99, .08); color: var(--navy); }
 .tag--stage { background: rgba(110, 193, 228, .22); color: #0d4f74; }
 .faq-empty { text-align: center; color: var(--muted); padding: 2rem; }
+.faq-source { margin: 1rem auto 0; max-width: 680px; font-size: .82rem; color: var(--muted); line-height: 1.5; }
+.faq-source a { color: var(--link); }
 
 /* --- Forms -------------------------------------------------------------- */
 .field { margin-bottom: 1rem; }
