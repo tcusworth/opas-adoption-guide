@@ -1,0 +1,16 @@
+{
+  "name": "opas-adoption-guide",
+  "version": "1.0.0",
+  "description": "O-PAS Adoption Guide — a static Eleventy rebuild of the WordPress/Elementor site, ready for GitHub Pages.",
+  "license": "MIT",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "clean": "rm -rf _site",
+    "fetch-assets": "node fetch-assets.mjs",
+    "admin": "node serve-admin.mjs"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

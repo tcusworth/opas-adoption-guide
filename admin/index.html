@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ Editor — O-PAS Adoption Guide</title>
+<style>
+  :root{
+    --navy:#0A2C63; --navy2:#1A3E88; --blue:#6EC1E4; --link:#005A9C;
+    --ink:#2B2B33; --muted:#6b7280; --line:#e2e6ec; --bg:#f4f6fa;
+    --ok:#1a7f37; --warn:#b45309; --err:#b3261e; --radius:10px;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.5}
+  header.bar{
+    position:sticky;top:0;z-index:10;background:var(--navy);color:#fff;
+    display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;padding:.7rem 1rem;
+    box-shadow:0 2px 10px rgba(10,44,99,.2)
+  }
+  header.bar h1{font-size:1.05rem;margin:0;margin-right:auto;font-weight:600}
+  header.bar h1 span{opacity:.7;font-weight:400}
+  .status{font-size:.82rem;padding:.25rem .6rem;border-radius:999px;background:rgba(255,255,255,.15)}
+  .status.dirty{background:var(--warn);color:#fff}
+  .status.saved{background:var(--ok);color:#fff}
+  button{
+    font:inherit;cursor:pointer;border:1px solid transparent;border-radius:8px;
+    padding:.5rem .85rem;font-weight:600;font-size:.9rem;transition:.15s
+  }
+  .btn-primary{background:#fff;color:var(--navy)}
+  .btn-primary:hover{background:var(--blue);color:var(--navy)}
+  .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)}
+  .btn-ghost:hover{background:rgba(255,255,255,.22)}
+  main{max-width:900px;margin:1.5rem auto;padding:0 1rem 4rem}
+  .hint{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);
+    border-radius:var(--radius);padding:.9rem 1.1rem;margin-bottom:1.2rem;font-size:.9rem;color:var(--muted)}
+  .hint b{color:var(--ink)}
+  .toolbar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:1rem}
+  .toolbar .count{color:var(--muted);font-size:.9rem;margin-left:auto}
+  .btn-add{background:var(--navy);color:#fff}
+  .btn-add:hover{background:var(--navy2)}
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:1rem 1.1rem;margin-bottom:.8rem;box-shadow:0 1px 3px rgba(10,44,99,.06)
+  }
+  .card .q{font-weight:600;font-size:1.02rem;margin:0 0 .4rem}
+  .card .tags{display:flex;flex-wrap:wrap;gap:.35rem;margin:.4rem 0 .7rem}
+  .tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em;
+    padding:.2rem .5rem;border-radius:999px}
+  .tag.role{background:rgba(10,44,99,.08);color:var(--navy)}
+  .tag.stage{background:rgba(110,193,228,.25);color:#0d4f74}
+  .tag.none{background:#fdecea;color:var(--err)}
+  .card .row{display:flex;gap:.4rem;flex-wrap:wrap}
+  .card .row button{padding:.35rem .7rem;font-size:.82rem}
+  .btn-edit{background:#eef3fb;color:var(--navy);border-color:#d8e3f5}
+  .btn-edit:hover{background:#e0eaf7}
+  .btn-move{background:#f4f6fa;color:var(--ink);border-color:var(--line)}
+  .btn-move:hover{background:#eaeef4}
+  .btn-del{background:#fff;color:var(--err);border-color:#f0c8c4;margin-left:auto}
+  .btn-del:hover{background:#fdecea}
+  .empty{background:#fff;border:1px dashed var(--line);border-radius:var(--radius);
+    padding:2.5rem;text-align:center;color:var(--muted)}
+  /* Modal */
+  dialog{border:none;border-radius:14px;padding:0;width:min(680px,94vw);
+    box-shadow:0 20px 60px rgba(10,44,99,.3)}
+  dialog::backdrop{background:rgba(10,44,99,.4)}
+  .modal-head{background:var(--navy);color:#fff;padding:1rem 1.3rem;font-weight:600;font-size:1.05rem}
+  form.editor{padding:1.3rem}
+  label.fld{display:block;font-weight:600;font-size:.85rem;margin:1rem 0 .35rem}
+  label.fld:first-child{margin-top:0}
+  input[type=text],textarea{width:100%;padding:.6rem .7rem;border:1px solid var(--line);
+    border-radius:8px;font:inherit;color:var(--ink)}
+  textarea{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;min-height:120px;resize:vertical}
+  input:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(110,193,228,.3)}
+  .fmt{display:flex;gap:.4rem;margin-bottom:.4rem}
+  .fmt button{background:#f4f6fa;border:1px solid var(--line);color:var(--ink);
+    padding:.3rem .6rem;font-size:.8rem;font-weight:600}
+  .fmt button:hover{background:#eaeef4}
+  .checks{display:flex;flex-wrap:wrap;gap:.5rem}
+  .checks label{display:inline-flex;align-items:center;gap:.4rem;background:#f4f6fa;
+    border:1px solid var(--line);border-radius:999px;padding:.35rem .75rem;font-size:.85rem;cursor:pointer;font-weight:500}
+  .checks label:has(input:checked){background:var(--navy);color:#fff;border-color:var(--navy)}
+  .checks input{accent-color:#fff}
+  .preview{background:#f9fbfd;border:1px solid var(--line);border-radius:8px;padding:.7rem .9rem;
+    margin-top:.4rem;font-size:.9rem;color:#374151}
+  .preview :is(p,ul){margin:.3rem 0}
+  .modal-foot{display:flex;gap:.6rem;justify-content:flex-end;padding:1rem 1.3rem;
+    border-top:1px solid var(--line);background:#fafbfc}
+  .btn-cancel{background:#fff;border:1px solid var(--line);color:var(--ink)}
+  .btn-save{background:var(--navy);color:#fff}
+  .btn-save:hover{background:var(--navy2)}
+  .err-msg{color:var(--err);font-size:.85rem;margin:.5rem 0 0;font-weight:600}
+  .filename{font-size:.8rem;opacity:.75}
+  @media (max-width:560px){ header.bar h1{width:100%;margin-bottom:.3rem} }
+</style>
+</head>
+<body>
+<header class="bar">
+  <h1>FAQ Editor <span>· O-PAS Adoption Guide</span></h1>
+  <span class="filename" id="filename"></span>
+  <span class="status" id="status">No file open</span>
+  <button class="btn-primary" id="openBtn">Open faqs.json</button>
+  <button class="btn-ghost" id="saveBtn" disabled>Save</button>
+</header>
+
+<main>
+  <div class="hint" id="hint">
+    <p style="margin:.1rem 0 .5rem"><b>How this works.</b> This tool edits your
+    <code>src/_data/faqs.json</code> file. Click <b>Open faqs.json</b> and pick that
+    file, make your changes, then click <b>Save</b>. Finally, in your project run
+    <code>git add -A &amp;&amp; git commit -m "Update FAQs" &amp;&amp; git push</code>
+    (or just rebuild locally with <code>npm run build</code>) to publish.</p>
+    <p style="margin:.2rem 0 0">This page is a local tool — it isn't part of the
+    published website, so it's safe and private.</p>
+  </div>
+
+  <div class="toolbar" id="toolbar" hidden>
+    <button class="btn-add" id="addBtn">+ Add question</button>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div id="list"></div>
+</main>
+
+<!-- Edit / Add modal -->
+<dialog id="dlg">
+  <div class="modal-head" id="dlgTitle">Edit question</div>
+  <form class="editor" id="editForm" method="dialog">
+    <label class="fld" for="fQuestion">Question</label>
+    <input type="text" id="fQuestion" required placeholder="e.g. How does O-PAS improve interoperability?">
+
+    <label class="fld" for="fAnswer">Answer <span style="font-weight:400;color:var(--muted)">(HTML — use the buttons or type tags)</span></label>
+    <div class="fmt">
+      <button type="button" data-wrap="p">Paragraph</button>
+      <button type="button" data-wrap="strong">Bold</button>
+      <button type="button" data-list="ul">Bullet list</button>
+    </div>
+    <textarea id="fAnswer" placeholder="&lt;p&gt;Your answer here…&lt;/p&gt;"></textarea>
+    <div class="preview" id="fPreview" aria-live="polite"></div>
+
+    <label class="fld">Roles</label>
+    <div class="checks" id="fRoles"></div>
+
+    <label class="fld">Project stages</label>
+    <div class="checks" id="fStages"></div>
+
+    <p class="err-msg" id="fErr" hidden></p>
+  </form>
+  <div class="modal-foot">
+    <button class="btn-cancel" id="cancelBtn" type="button">Cancel</button>
+    <button class="btn-save" id="commitBtn" type="button">Save question</button>
+  </div>
+</dialog>
+
+<!-- Hidden fallback loader for browsers without the File System Access API -->
+<input type="file" id="fileInput" accept="application/json,.json" hidden>
+
+<script>
+(function(){
+  "use strict";
+
+  // Keep these in sync with src/_data/taxonomies.js
+  const ROLES  = ["End User","System Integrator","Hardware/Software Supplier","Solution Provider","Service Provider"];
+  const STAGES = ["Awareness","Design","Implementation","Qualification","Operations","Maintenance"];
+
+  const supportsFS = "showOpenFilePicker" in window;
+  let fileHandle = null;      // FileSystemFileHandle when available
+  let faqs = [];              // working data
+  let dirty = false;
+  let editIndex = -1;         // -1 = adding new
+
+  const $ = (id) => document.getElementById(id);
+  const listEl = $("list"), statusEl = $("status"), filenameEl = $("filename");
+
+  function setStatus(text, cls){
+    statusEl.textContent = text;
+    statusEl.className = "status" + (cls ? " " + cls : "");
+  }
+  function markDirty(v){
+    dirty = v;
+    $("saveBtn").disabled = !v && !supportsFS ? false : false;
+    if (v) setStatus("Unsaved changes", "dirty");
+  }
+
+  function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+  function render(){
+    $("toolbar").hidden = false;
+    $("count").textContent = faqs.length + (faqs.length === 1 ? " question" : " questions");
+    if (!faqs.length){
+      listEl.innerHTML = '<div class="empty">No questions yet. Click <b>+ Add question</b> to create one.</div>';
+      return;
+    }
+    listEl.innerHTML = faqs.map((f, i) => {
+      const roles = (f.roles||[]).length
+        ? f.roles.map(r=>`<span class="tag role">${esc(r)}</span>`).join("")
+        : `<span class="tag none">no role</span>`;
+      const stages = (f.stages||[]).map(s=>`<span class="tag stage">${esc(s)}</span>`).join("");
+      return `<div class="card">
+        <p class="q">${esc(f.question || "(untitled)")}</p>
+        <div class="tags">${roles}${stages}</div>
+        <div class="row">
+          <button class="btn-edit" data-edit="${i}">Edit</button>
+          <button class="btn-move" data-up="${i}" ${i===0?"disabled":""} title="Move up">↑</button>
+          <button class="btn-move" data-down="${i}" ${i===faqs.length-1?"disabled":""} title="Move down">↓</button>
+          <button class="btn-del" data-del="${i}">Delete</button>
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  // ---- Load ---------------------------------------------------------------
+  async function openFile(){
+    if (supportsFS){
+      try{
+        const [h] = await window.showOpenFilePicker({
+          types:[{description:"FAQ data", accept:{"application/json":[".json"]}}]
+        });
+        fileHandle = h;
+        const file = await h.getFile();
+        loadText(await file.text(), file.name);
+      }catch(e){ if (e.name !== "AbortError") alert("Could not open file: " + e.message); }
+    } else {
+      $("fileInput").click();
+    }
+  }
+  $("fileInput").addEventListener("change", (e)=>{
+    const file = e.target.files[0];
+    if (!file) return;
+    const r = new FileReader();
+    r.onload = () => loadText(r.result, file.name);
+    r.readAsText(file);
+  });
+  function loadText(text, name){
+    try{
+      const data = JSON.parse(text);
+      if (!Array.isArray(data)) throw new Error("Expected a JSON array of questions.");
+      faqs = data;
+      filenameEl.textContent = name || "faqs.json";
+      $("saveBtn").disabled = false;
+      setStatus(supportsFS ? "Loaded" : "Loaded (use Download to save)", "saved");
+      dirty = false;
+      render();
+    }catch(e){ alert("That doesn't look like a valid faqs.json:\n" + e.message); }
+  }
+
+  // ---- Save ---------------------------------------------------------------
+  async function save(){
+    const text = JSON.stringify(faqs, null, 2) + "\n";
+    if (supportsFS && fileHandle){
+      try{
+        const w = await fileHandle.createWritable();
+        await w.write(text); await w.close();
+        dirty = false; setStatus("Saved ✓", "saved");
+      }catch(e){ alert("Save failed: " + e.message); }
+    } else {
+      // download fallback
+      const blob = new Blob([text], {type:"application/json"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = "faqs.json";
+      a.click(); URL.revokeObjectURL(a.href);
+      dirty = false; setStatus("Downloaded — replace src/_data/faqs.json", "saved");
+    }
+  }
+
+  // ---- Modal --------------------------------------------------------------
+  const dlg = $("dlg");
+  function buildChecks(container, values, selected){
+    container.innerHTML = values.map(v =>
+      `<label><input type="checkbox" value="${esc(v)}" ${selected.includes(v)?"checked":""}>${esc(v)}</label>`
+    ).join("");
+  }
+  function openModal(index){
+    editIndex = index;
+    const f = index >= 0 ? faqs[index] : {question:"",answer:"",roles:[],stages:[]};
+    $("dlgTitle").textContent = index >= 0 ? "Edit question" : "Add question";
+    $("fQuestion").value = f.question || "";
+    $("fAnswer").value = f.answer || "";
+    buildChecks($("fRoles"), ROLES, f.roles||[]);
+    buildChecks($("fStages"), STAGES, f.stages||[]);
+    $("fErr").hidden = true;
+    updatePreview();
+    dlg.showModal();
+    $("fQuestion").focus();
+  }
+  function updatePreview(){ $("fPreview").innerHTML = $("fAnswer").value || "<em style='color:#9aa0a6'>Answer preview…</em>"; }
+  $("fAnswer").addEventListener("input", updatePreview);
+
+  // formatting helpers
+  document.querySelectorAll(".fmt button").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      const ta = $("fAnswer");
+      const s = ta.selectionStart, e = ta.selectionEnd;
+      const sel = ta.value.slice(s,e);
+      let ins;
+      if (b.dataset.list){
+        const items = (sel || "First item\nSecond item").split("\n").filter(Boolean).map(t=>"  <li>"+t+"</li>").join("\n");
+        ins = "<ul>\n"+items+"\n</ul>";
+      } else {
+        const tag = b.dataset.wrap;
+        ins = "<"+tag+">"+(sel || (tag==="p"?"Your text":"text"))+"</"+tag+">";
+      }
+      ta.value = ta.value.slice(0,s) + ins + ta.value.slice(e);
+      updatePreview(); ta.focus();
+    });
+  });
+
+  function commit(){
+    const q = $("fQuestion").value.trim();
+    if (!q){ $("fErr").textContent = "A question is required."; $("fErr").hidden = false; return; }
+    const roles = [...$("fRoles").querySelectorAll("input:checked")].map(i=>i.value);
+    const stages = [...$("fStages").querySelectorAll("input:checked")].map(i=>i.value);
+    const answer = $("fAnswer").value.trim();
+    if (editIndex >= 0){
+      faqs[editIndex] = {...faqs[editIndex], question:q, answer, roles, stages};
+    } else {
+      const maxId = faqs.reduce((m,f)=>Math.max(m, f.id||0), 0);
+      faqs.push({id:maxId+1, question:q, answer, roles, stages});
+    }
+    markDirty(true); render(); dlg.close();
+  }
+
+  // ---- Events -------------------------------------------------------------
+  $("openBtn").addEventListener("click", openFile);
+  $("saveBtn").addEventListener("click", save);
+  $("addBtn").addEventListener("click", ()=>openModal(-1));
+  $("commitBtn").addEventListener("click", commit);
+  $("cancelBtn").addEventListener("click", ()=>dlg.close());
+
+  listEl.addEventListener("click", (e)=>{
+    const t = e.target.closest("button"); if (!t) return;
+    if (t.dataset.edit != null) openModal(+t.dataset.edit);
+    else if (t.dataset.del != null){
+      const i = +t.dataset.del;
+      if (confirm('Delete "'+(faqs[i].question||"this question")+'"?')){ faqs.splice(i,1); markDirty(true); render(); }
+    }
+    else if (t.dataset.up != null){ const i=+t.dataset.up; [faqs[i-1],faqs[i]]=[faqs[i],faqs[i-1]]; markDirty(true); render(); }
+    else if (t.dataset.down != null){ const i=+t.dataset.down; [faqs[i+1],faqs[i]]=[faqs[i],faqs[i+1]]; markDirty(true); render(); }
+  });
+
+  // Keyboard: Ctrl/Cmd+S to save
+  window.addEventListener("keydown",(e)=>{
+    if ((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==="s"){ e.preventDefault(); if(!$("saveBtn").disabled) save(); }
+  });
+  // Warn on unsaved changes
+  window.addEventListener("beforeunload",(e)=>{ if(dirty){ e.preventDefault(); e.returnValue=""; } });
+
+  if (!supportsFS){
+    $("hint").insertAdjacentHTML("beforeend",
+      '<p style="margin:.6rem 0 0;color:var(--warn)"><b>Note:</b> your browser doesn\'t support saving files directly. '+
+      'Use <b>Open</b> to load the file and <b>Save</b> to download the updated version, then replace '+
+      '<code>src/_data/faqs.json</code> with it. (Chrome or Edge can save in place automatically.)</p>');
+  }
+})();
+</script>
+</body>
+</html>

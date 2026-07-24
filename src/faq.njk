@@ -1,0 +1,86 @@
+---
+layout: layouts/base.njk
+title: "FAQ"
+description: "Search the O-PAS FAQ library by role or project stage to explore verified insights from the Open Process Automation Forum."
+---
+
+<section class="hero hero--faq">
+  <div class="wrap">
+    <h1>Find Answers, Faster<span class="hero-sub">The O-PAS FAQ Library</span></h1>
+    <p class="hero-lede">Search by role or project stage to explore verified insights from the Open Process Automation Forum.</p>
+    <a class="btn btn--light" href="#faqs">Browse the library <span aria-hidden="true">↓</span></a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap narrow center">
+    <p class="section-intro">The O-PAS FAQ helps organizations navigate the adoption of open, interoperable process automation systems. Each answer is drawn from practical experience, OPAF guidance, and community contributions.</p>
+  </div>
+</section>
+
+<section id="faqs" class="section section--tint">
+  <div class="wrap">
+    <div class="faq-controls" data-faq-controls>
+      <div class="field field--search">
+        <label for="faq-search" class="visually-hidden">Search FAQs</label>
+        <input id="faq-search" type="search" placeholder="Search the FAQ…" data-faq-search autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="faq-role" class="visually-hidden">Filter by role</label>
+        <select id="faq-role" data-faq-role>
+          <option value="">Filter by Role</option>
+          {% for role in taxonomies.roles %}
+            {% set n = faqs | countBy("roles", role) %}
+            <option value="{{ role }}">{{ role }} ({{ n }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="faq-stage" class="visually-hidden">Filter by project stage</label>
+        <select id="faq-stage" data-faq-stage>
+          <option value="">Filter by Project Stage</option>
+          {% for stage in taxonomies.stages %}
+            {% set n = faqs | countBy("stages", stage) %}
+            <option value="{{ stage }}">{{ stage }} ({{ n }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button class="btn btn--ghost" type="button" data-faq-reset>Reset</button>
+    </div>
+
+    <p class="faq-count" data-faq-count aria-live="polite"></p>
+
+    <ul class="faq-list" data-faq-list>
+      {% for faq in faqs %}
+        <li class="faq-item"
+            data-faq-item
+            data-roles="{{ faq.roles | join('|') }}"
+            data-stages="{{ faq.stages | join('|') }}">
+          <details>
+            <summary>
+              <span class="faq-q">{{ faq.question }}</span>
+              <span class="faq-marker" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a">
+              {{ faq.answer | safe }}
+              <p class="faq-tags">
+                {% for role in faq.roles %}<span class="tag tag--role">{{ role }}</span>{% endfor %}
+                {% for stage in faq.stages %}<span class="tag tag--stage">{{ stage }}</span>{% endfor %}
+              </p>
+            </div>
+          </details>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <p class="faq-empty" data-faq-empty hidden>No questions match your search or filters yet. Try clearing them, or <a href="#ask">ask a new question</a>.</p>
+  </div>
+</section>
+
+<section id="ask" class="section">
+  <div class="wrap narrow">
+    <h2 class="section-title">Ask a Question</h2>
+    <p class="section-intro center">Submit your O-PAS question using the community form. Questions can come from any role or organization.</p>
+    {% include "partials/contact-form.njk" %}
+  </div>
+</section>

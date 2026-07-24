@@ -1,0 +1,29 @@
+<form class="ask-form"
+      data-ask-form
+      method="POST"
+      action="{{ site.contactFormAction }}"
+      data-fallback-email="{{ site.contactEmail }}">
+  <div class="field">
+    <label for="af-name">Name</label>
+    <input id="af-name" name="name" type="text" autocomplete="name" required>
+  </div>
+  <div class="field">
+    <label for="af-email">Email</label>
+    <input id="af-email" name="email" type="email" autocomplete="email" required>
+  </div>
+  <div class="field">
+    <label for="af-role">Your role</label>
+    <select id="af-role" name="role">
+      <option value="">Select a role (optional)</option>
+      {% for role in taxonomies.roles %}
+        <option value="{{ role }}">{{ role }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="af-message">Your question</label>
+    <textarea id="af-message" name="message" rows="5" required></textarea>
+  </div>
+  <button class="btn btn--primary" type="submit">Submit question</button>
+  <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+</form>

@@ -1,0 +1,24 @@
+<header class="site-header" data-header>
+  <div class="wrap header-inner">
+    <a class="brand" href="{{ '/' | url }}">
+      <img src="{{ '/assets/img/logo.png' | url }}" alt="{{ site.name }}" class="brand-logo">
+    </a>
+
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Primary">
+      <ul>
+        {% for item in site.nav %}
+          <li>
+            <a href="{{ item.url | url }}"
+               class="{% if item.button %}nav-btn{% endif %}{% if page.url == item.url %} is-active{% endif %}">
+              {{ item.text }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</header>

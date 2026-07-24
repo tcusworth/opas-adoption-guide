@@ -1,0 +1,120 @@
+[
+  {
+    "id": 283,
+    "question": "What are the next steps after initial O-PAS deployment?",
+    "roles": [
+      "End User",
+      "System Integrator"
+    ],
+    "stages": [
+      "Operations"
+    ],
+    "answer": "<p>Organizations should establish a roadmap for continuous improvement: monitoring interoperability, refining cybersecurity posture, expanding modular architectures, and training teams to leverage open data for optimization.</p>"
+  },
+  {
+    "id": 282,
+    "question": "How do suppliers certify their components for O-PAS compliance?",
+    "roles": [
+      "Hardware/Software Supplier"
+    ],
+    "stages": [
+      "Implementation"
+    ],
+    "answer": "<p>Suppliers register their components through OPAF’s conformance testing process, ensuring each conforms to O-PAS profiles and interfaces. Certification enables market trust and interoperability within the ecosystem.</p>"
+  },
+  {
+    "id": 279,
+    "question": "What kind of training or upskilling is needed for O-PAS?",
+    "roles": [
+      "End User",
+      "System Integrator"
+    ],
+    "stages": [
+      "Operations"
+    ],
+    "answer": "<p>Personnel should gain cross-disciplinary skills in networking, virtualization, containerization, and cybersecurity — bridging traditional OT and IT domains. CSI and its partners provide training tailored to each role to accelerate adoption.</p>"
+  },
+  {
+    "id": 278,
+    "question": "How does O-PAS reduce total cost of ownership (TCO)?",
+    "roles": [
+      "End User"
+    ],
+    "stages": [
+      "Operations"
+    ],
+    "answer": "<p>By standardizing interfaces, O-PAS allows competition at the component level and reduces the cost of proprietary maintenance contracts. It also extends equipment lifecycles and lowers integration and training costs through modularity and reusability.</p>"
+  },
+  {
+    "id": 277,
+    "question": "What are the main building blocks of an O-PAS system?",
+    "roles": [
+      "Hardware/Software Supplier",
+      "System Integrator"
+    ],
+    "stages": [
+      "Implementation"
+    ],
+    "answer": "<p>An O-PAS architecture typically includes:</p><ul><li><strong>DCNs (Distributed Control Nodes)</strong> for field I/O and logic</li><li><strong>O-PAS Gateways</strong> for legacy integration</li><li><strong>Configuration Tools</strong> for orchestration and deployment</li><li><strong>Supervisory Applications</strong> built on open APIs and portable services</li></ul>"
+  },
+  {
+    "id": 276,
+    "question": "Can O-PAS be implemented in existing (brownfield) plants?",
+    "roles": [
+      "End User",
+      "System Integrator"
+    ],
+    "stages": [
+      "Implementation"
+    ],
+    "answer": "<p>Yes. O-PAS is designed for <strong>incremental adoption</strong>. Organizations can modernize in stages — for example, by first introducing O-PAS-compatible gateways or control nodes — without replacing the entire legacy system.</p>"
+  },
+  {
+    "id": 275,
+    "question": "How does O-PAS enhance cybersecurity?",
+    "roles": [
+      "Hardware/Software Supplier",
+      "System Integrator"
+    ],
+    "stages": [
+      "Implementation"
+    ],
+    "answer": "<p>O-PAS follows a <strong>Cybersecurity-by-Design</strong> approach based on IEC 62443 principles. Each component and interface is security-assessed, ensuring layered protection across the entire architecture — from field devices to control nodes and enterprise systems.</p>"
+  },
+  {
+    "id": 274,
+    "question": "Who benefits most from adopting an open process automation strategy?",
+    "roles": [
+      "End User",
+      "Hardware/Software Supplier",
+      "System Integrator"
+    ],
+    "stages": [
+      "Awareness"
+    ],
+    "answer": "<p>End users gain flexibility and reduced total cost of ownership; system integrators benefit from modular engineering and reusable code; and suppliers can focus on innovation instead of maintaining proprietary interfaces.</p>"
+  },
+  {
+    "id": 273,
+    "question": "What is the difference between O-PAS and traditional DCS architectures?",
+    "roles": [
+      "End User"
+    ],
+    "stages": [
+      "Awareness"
+    ],
+    "answer": "<p>Traditional DCS systems are vertically integrated and vendor-specific, while O-PAS is horizontally integrated and standards-based. O-PAS separates hardware, software, and services layers, allowing operators to choose components independently while maintaining full system functionality.</p>"
+  },
+  {
+    "id": 272,
+    "question": "How does O-PAS improve interoperability in control systems?",
+    "roles": [
+      "End User",
+      "System Integrator"
+    ],
+    "stages": [
+      "Awareness"
+    ],
+    "answer": "<p>O-PAS defines open, standardized interfaces that allow components from different vendors to communicate seamlessly. This interoperability reduces vendor lock-in, simplifies integration, and enables organizations to mix best-in-class technologies within a single control architecture.</p>"
+  }
+]

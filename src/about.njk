@@ -1,0 +1,82 @@
+---
+layout: layouts/base.njk
+title: "About"
+description: "An open knowledge initiative built to help the O-PAS community learn, collaborate, and innovate."
+---
+
+<section class="hero hero--about">
+  <div class="wrap">
+    <h1>About the Open Process Automation Adoption Guide FAQ</h1>
+    <p class="hero-lede">An open knowledge initiative built to help the O-PAS community learn, collaborate, and innovate.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap mission">
+    <div class="mission-text">
+      <h2>Our Mission</h2>
+      <p>The Open Process Automation Forum unites end users, suppliers, and integrators to create open, secure, and interoperable process automation systems.</p>
+      <p>Its mission is to:</p>
+      <ul class="ticks">
+        <li>Develop and maintain open standards that enable vendor independence.</li>
+        <li>Foster collaboration across the automation industry.</li>
+        <li>Support innovation through shared architecture, best practices, and certification.</li>
+      </ul>
+      <p>Together, the Forum works to modernize industrial automation and lower barriers to innovation.</p>
+    </div>
+    <div class="mission-media">
+      <img src="{{ '/assets/img/about-mission.webp' | url }}" alt="Team collaborating on data analysis in a modern office" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap">
+    <h2 class="section-title">Who It’s For</h2>
+    <ul class="audience-grid">
+      {% set audiences = [
+        { title: "End Users", img: "about-end-users.webp", alt: "Aerial view of a large industrial chemical plant" },
+        { title: "System Integrators", img: "about-system-integrators.webp", alt: "IT technician troubleshooting server issues in a data center" },
+        { title: "Vendors & Suppliers", img: "about-vendors.webp", alt: "Close-up view of a computer microchip on a circuit board" },
+        { title: "Standards Collaborators", img: "about-standards.webp", alt: "A group of people working on laptops in an office" }
+      ] %}
+      {% for a in audiences %}
+        <li class="audience-card">
+          <h3>{{ a.title }}</h3>
+          <div class="audience-img" style="background-image:url('{{ ['/assets/img/', a.img] | join | url }}')" role="img" aria-label="{{ a.alt }}"></div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap">
+    <h2 class="section-title section-title--light">How It Works</h2>
+    <p class="section-intro section-intro--light">Every answer in the O-PAS Adoption Guide FAQ follows a simple, open process.</p>
+    <ol class="steps">
+      <li class="step-card">
+        <span class="step-icon" aria-hidden="true">?</span>
+        <h3>Ask a Question</h3>
+        <p>Submit your O-PAS question using our community form. Questions can come from any role or organization.</p>
+      </li>
+      <li class="step-card">
+        <span class="step-icon" aria-hidden="true">⌕</span>
+        <h3>Review &amp; Curate</h3>
+        <p>Subject-matter experts and contributors review submissions, clarify context, and connect them with related topics.</p>
+      </li>
+      <li class="step-card">
+        <span class="step-icon" aria-hidden="true">↗</span>
+        <h3>Publish &amp; Share</h3>
+        <p>Approved answers are published to the FAQ and shared across the O-PAS community to expand collective knowledge.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <div class="wrap narrow">
+    <h2 class="section-title">Get in Touch</h2>
+    {% include "partials/contact-form.njk" %}
+  </div>
+</section>

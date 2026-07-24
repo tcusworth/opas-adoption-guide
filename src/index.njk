@@ -1,0 +1,46 @@
+---
+layout: layouts/base.njk
+title: ""
+description: "Explore frequently asked questions designed for your role in the Open Process Automation ecosystem."
+---
+
+<section class="hero hero--home">
+  <div class="wrap">
+    <h1>O-PAS Adoption Guide<span class="hero-sub">One Role at a Time</span></h1>
+    <p class="hero-lede">Explore frequently asked questions designed for your role in the Open Process Automation ecosystem.</p>
+    <a class="btn btn--light" href="#roles">Select your role</a>
+  </div>
+</section>
+
+<section id="roles" class="section">
+  <div class="wrap">
+    <h2 class="section-title">Select your role…</h2>
+    <p class="section-intro">Flip a card to learn what each role does in the O-PAS ecosystem, then jump straight to the FAQs written for it.</p>
+
+    <ul class="role-grid">
+      {% for role in roles %}
+        <li class="role-card">
+          <div class="role-card-inner">
+            <div class="role-card-face role-card-front">
+              <div class="role-card-img" style="background-image:url('{{ ['/assets/img/', role.image] | join | url }}')"></div>
+              <h3>{{ role.title }}</h3>
+            </div>
+            <div class="role-card-face role-card-back">
+              <h3>{{ role.title }}</h3>
+              <p>{{ role.description }}</p>
+              <a class="btn btn--small" href="{{ '/faq/' | url }}?role={{ role.faqRole | urlencode }}#faqs">View FAQs</a>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap cta-band">
+    <h2>Have a question that isn’t answered yet?</h2>
+    <p>Submit it to the community and our subject-matter experts will review, curate, and publish an answer.</p>
+    <a class="btn btn--primary" href="{{ '/faq/' | url }}#ask">Ask a Question</a>
+  </div>
+</section>
